@@ -24,10 +24,6 @@ KeyboardInputManager.prototype.listen = function () {
   var self = this;
 
   var map = {
-    38: { key: 0, type: 'arrow' }, // Up
-    39: { key: 1, type: 'arrow' }, // Right
-    40: { key: 2, type: 'arrow' }, // Down
-    37: { key: 3, type: 'arrow' }, // Left
     // TODO: добавить для тача !DONE!
     81: { x: 0, y: 1, type: 'button' }, // Top-Left
     69: { x: 1, y: 1, type: 'button' }, // Top-Right

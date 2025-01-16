@@ -5,7 +5,15 @@
 html, body {
   height: 100%;
 }
+button{
+  color:bisque;
+  background-color:#564e47;
+  box-shadow:none;
+  display: flex;
+  width: 60px;
+  height: 60px;
 
+}
 body {
   margin: 0;
   padding: 0;
