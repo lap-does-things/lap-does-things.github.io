@@ -11,7 +11,6 @@ function Grid(count) {
 Grid.prototype.init = function() {
   for (var i = 0; i < this.count; i++) {
     var value = {};
-
     if(i%2 == 0) {
       value.x = (i > 0) ? 1 : 0;
       value.y = (i > 0) ? 1 : 0;
@@ -19,7 +18,6 @@ Grid.prototype.init = function() {
       value.x = (i > this.count/2) ? 1 : 0;
       value.y = (i > this.count/2) ? 0 : 1;
     }
-
     this.avail.push(i);
     this.list[i] = value;
   }
@@ -34,34 +32,23 @@ Grid.prototype.unHold = function(key) {
   this.hold.splice(index, 1);
 };
 
-
-/*
- *  Chicken
- */
 function Chicken(key, position) {
   this.key = key;
   this.x = position.x;
   this.y = position.y;
-
   this.egg = new Egg(this.key, 0);
 }
-
-/*
- *  Egg
- */
 function Egg(chicken, step, point) {
   this.chicken = chicken;
   this.step = step;
   this.point = point;
   this.amount = 5;
-
   this.callback;
   this.timer;
 }
 
 Egg.prototype.run = function(speed, callback) {
   this.callback = callback;
-
   var self = this;
   this.timer = setInterval(function() {
     self.nextStep();
@@ -70,9 +57,7 @@ Egg.prototype.run = function(speed, callback) {
 
 Egg.prototype.nextStep = function() {
   ++this.step;
-
   this.callback('updateEggPosition', { egg: this.chicken, position: this.step });
-
   if (this.step > this.amount) {
     clearInterval(this.timer);
     this.step = 0;
@@ -82,22 +67,15 @@ Egg.prototype.nextStep = function() {
   }
 };
 
-
-/*
- *  Basket
- */
 function Basket(position) {
   this.x = position.x;
   this.y = position.y;
-
   this.callback;
 }
 
 Basket.prototype.updatePosition = function (position, callback) {
   this.callback = callback;
-
   this.x = position.x;
   this.y = position.y;
-
   this.callback('updateBasketPosition', { x: this.x, y: this.y });
 };

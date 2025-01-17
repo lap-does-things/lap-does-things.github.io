@@ -4,42 +4,32 @@ var GameManager = function() {
   this.start();
 }
 
-// Initial game settings
 GameManager.prototype.init = function () {
   this.score = 0;
   this.loss = 0;
   this.over = false;
   this.won = false;
-
   this.count = 4;
   this.level = 1;
-  this.speed = 800;
+  this.speed = 700;
   // this.maxSpeed = 200;
   this.interval = this.speed*2.5;
   this.point = 2;
-
   this.chickens = {};
   this.eggs = {};
-
   this.gameTimer;
-
   this.basketStartPosition = { x: 0, y: 1 };
 };
 
-// Set up the game
 GameManager.prototype.setup = function () {
   this.keyboard = new KeyboardInputManager();
   this.keyboard.on("move", this.move.bind(this));
-
   this.grid = new Grid(this.count);
   this.basket = new Basket(this.basketStartPosition);
-
   for (var i = 0; i < this.count; i++) {
     this.chickens[i] = new Chicken(i, this.grid.list[i], this.point);
   }
-
   this.HTMLredraw = new HTMLredraw();
-
   if (this.isMobile()) {
     this.touchscreenModification();
   }
@@ -60,7 +50,6 @@ GameManager.prototype.move = function (data) {
 
   switch (data.type) {
     case 'arrow':
-      // 0: up, 1: right, 2: down, 3: left, 4: R - restart
       if(data.key%2 == 0) {
         position.y = (data.key > 0) ? 0 : 1;
       } else {
@@ -78,7 +67,6 @@ GameManager.prototype.move = function (data) {
       }
       break;
   }
-
   this.basket.updatePosition(position, this.api.bind(this));
 }
 
@@ -112,7 +100,6 @@ GameManager.prototype.haltGear = function () {
 
 GameManager.prototype.upLevel = function () {
   this.level++;
-
   switch (true) {
     case (this.level < 8):
       this.speed += -50;
@@ -125,7 +112,6 @@ GameManager.prototype.upLevel = function () {
       break;
   }
   this.interval = this.speed*2.5;
-
   this.suspendGear();
 };
 
@@ -133,13 +119,11 @@ GameManager.prototype.updateScore = function (data) {
   if (this.grid.list[data.egg].x == this.basket.x && this.grid.list[data.egg].y == this.basket.y) {
     this.score += this.point;
     this.HTMLredraw.updateScore({ value: this.score });
-
     if (this.score >= 1000) {
       this.gameWin();
       return false;
     }
-
-    if (!(this.score % 50)) {
+    if (!(this.score % 20)) {
       this.upLevel();
     }
   } else {
@@ -153,14 +137,11 @@ GameManager.prototype.updateScore = function (data) {
 
 GameManager.prototype.findAvailableChicken = function() {
   var avail = this.grid.avail.diff(this.grid.hold);
-
   if (!avail) {
     return null;
   }
-
   var chicken = avail.randomElement();
   this.api('onHoldChicken', { egg: chicken });
-
   return chicken;
 };
 
@@ -200,7 +181,6 @@ GameManager.prototype.api = function(method, data) {
 
 GameManager.prototype.touchscreenModification = function() {
   var buttons = document.querySelector('#controls').getElementsByTagName('a');
-
   var self = this;
   for (var i = 0; i < buttons.length; i++) {
     buttons[i].onclick = function() {
@@ -209,6 +189,5 @@ GameManager.prototype.touchscreenModification = function() {
       return false;
     };
   }
-
   this.HTMLredraw.mobileVersion();
 };
