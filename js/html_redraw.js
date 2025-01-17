@@ -42,6 +42,10 @@ HTMLredraw.prototype.gameOver = function() {
 
   this.messageWrap.show();
   this.messageWrap.appendChild(msg);
+
+  document.addEventListener('click',function(e){ //FIXME: Сделано только для тачей с 1080x1920 расширением.
+    window.location.href=window.location.href
+  });
 };
 
 HTMLredraw.prototype.gameWin = function() {
